@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+  crossorigin="anonymous"></script>
+
+  <style>
+    /* Base Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color:#caf0f8;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: #1b263b;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      height: 150px;
+    }
+
+    .navbar__logo {
+      margin-left: 20px;
+    }
+
+    .navbar__logo img {
+      height: 130px;
+      width: auto;
+    }
+
+    .navbar__title {
+      flex-grow:1 ;
+      text-align:center;
+      font-size: 35px;
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    input,
+    textarea{
+        -webkit-appearance: none;
+        appearance: none;
+        
+    }
+
+    label{
+  display: block;
+  font-family:'Times New Roman', Times, serif;
+  font-size: 110%;
+  margin: 0;
+  box-sizing:inherit;
+  width: 100%;
+  padding: 5px;
+  height: 30px;
+    }
+
+
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="#" class="navbar__logo">
+      <img src="logo2.jpg" alt="Logo">
+    </a>
+    <div class="navbar__title">Ajouter une voiture</div>
+
+  </nav>
+  <div class="container">
+    <form id="addCarForm" action="services/add_car" method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="picture">Picture:*</label>
+        <input type="file" id="picture" name="picture" accept="image/*" style="padding: 30px" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="nom">Nom:</label>
+        <input type="text" id="nom" name="nom" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="model">Model:</label>
+        <input type="text" id="model" name="model" >
+      </div>
+
+      <div class="mb-3">
+        <label for="year">Annee:*</label>
+        <input type="number" id="annee" name="annee" min="1900" max="2099" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="km">KM:*</label>
+        <input type="number" id="km" name="km" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="prix">prix:*</label>
+        <input type="number" id="prix" name="prix" required>
+      </div>
+
+      <div class="mb-3">
+        <label  for="caracteristiques">caracteristiques:</label>
+        <textarea id="caracteristiques" name="caracteristiques" ></textarea>
+      </div>
+
+      <button class="btn btn-danger btn-lg" type="submit">ajouter</button>
+    </form>
+  </div>
+  </div>
+
+  <button class="btn btn-danger" type="button" onclick="history.back()">Back</button>
+
+
+</body>
+
+</html>

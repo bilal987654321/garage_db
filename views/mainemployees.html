@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: #1b263b;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      height: 150px;
+    }
+
+    .navbar__logo {
+      margin-left: 20px;
+    }
+
+    .navbar__logo img {
+      height: 130px;
+      width: auto;
+    }
+
+    .navbar__title {
+      flex-grow:1 ;
+      text-align:center;
+      font-size: 35px;
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    .navbar__menu {
+      margin-right: 20px;
+      margin-top: 100px;
+      display:inline-block;
+      align-items: center;
+    }
+
+    .navbar__menu-item {
+      margin-left: 15px;
+      color: #fff;
+      text-decoration: none;
+      text-decoration-style: underline;
+    }
+
+    .navbar__menu-item:hover {
+      cursor: pointer;
+    }
+    
+    .container {
+      margin: 20px;
+      display: flex;
+      color: #fff;
+    }
+
+    .column {
+      flex: 1;
+      margin: 0 10px;
+      background-color: #1b263b;
+      padding: 20px;
+      border-radius: 5px;
+    }
+   
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="#" class="navbar__logo">
+      <img src="logo2.jpg" alt="Logo">
+    </a>
+    <div class="navbar__title">Garage Service-Employee</div>
+    <div class="navbar__menu">
+      <a href="main" class="navbar__menu-item">Home Page</a>
+      <a id="logout" class="navbar__menu-item" >Déconnexion</a>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <div class="column">
+      <h3>temoignages</h3>
+      <a href="reviews" style="color:#fff">Clicker ici pour controler les temoignages</a>
+
+    </div>
+    
+    <div class="column">
+      <h3>Add cars</h3>
+      <a href="carsadmin" style="color:#fff">Clicker ici pour ajouter une voiture</a>
+    </div>
+  </div>
+  <script>
+    var logoutBtn = document.getElementById("logout");
+    logoutBtn.addEventListener("click", function() {
+       window.localStorage.clear();
+       window.location.href='main';
+    })
+ 
+   </script>
+</body>
+</html>

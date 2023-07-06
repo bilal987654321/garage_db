@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: #1b263b;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      height: 150px;
+    }
+
+    .navbar__logo {
+      margin-left: 10px;
+    }
+
+    .navbar__logo img {
+      height: 130px;
+      width: auto;
+    }
+
+    .navbar__title {
+      flex-grow:1 ;
+      text-align:center;
+      font-size: 35px;
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    .navbar__menu {
+      margin-right: 20px;
+      margin-top: 100px;
+      display:inline-block;
+      align-items: center;
+    }
+
+    .navbar__menu-item {
+      margin-left: 15px;
+      color: #fff;
+      text-decoration: none;
+      text-decoration-style: underline;
+    }
+
+    .navbar__menu-item:hover {
+      cursor: pointer;
+    }
+
+    .container {
+      margin: 20px;
+      display: flex;
+      height: 500px;
+    }
+
+    .column {
+      flex: 1;
+      margin: 0 10px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      height: 400px;
+    }
+
+    .cars {
+
+      /* border: 2px solid #000;*/
+      /*border-radius: 5px;*/
+      padding: 20px;
+      background-color: #fff;
+      width: 100%;
+      height: 500px;
+    }
+
+    table {
+      border-collapse: collapse;
+      border: 1px solid black;
+    }
+
+    .table td,
+    table th {
+      border: 1px solid black;
+      padding: 8px;
+    }
+
+    th,
+    td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+
+    tr {
+      border-bottom: 1px solid black;
+    }
+
+    .column1 {
+      width: 30%;
+
+    }
+
+    .column2 {
+      width: 70%;
+
+    }
+    
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="#" class="navbar__logo">
+      <img src="logo2.jpg" alt="Logo">
+    </a>
+    <div class="navbar__title">Garage automobile PARROT</div>
+    <div class="navbar__menu">
+      <a href="aboutus" class="navbar__menu-item">Notre histoire</a>
+      <a href="formulaire" class="navbar__menu-item">Contacts</a>
+      <a href="Review" class="navbar__menu-item">Ecrire un temoignage</a>
+      <a href="login" class="navbar__menu-item">Connexion</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="column">
+      <h3>Schedule</h3>
+      <table class="table table-hover " id="horaire">
+
+        <tr>
+          <th scope="col" class="column1">Day</th>
+          <th scope="col" class="column2">Time</th>
+        </tr>
+        <tbody id="tbody-schedule"></tbody>
+
+      </table>
+
+      <script>
+
+        fetch("/horaire", {
+          method: "GET",
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        })
+          .then(response => response.json())
+          .then(data => {
+            const tbodySchedule = document.getElementById('tbody-schedule');
+            // Loop through the data and generate table rows
+            data.forEach(item => {
+              const row = document.createElement('tr');
+              const column1 = document.createElement('td');
+              const column2 = document.createElement('td');
+              column1.textContent = item.jour;
+              column2.textContent = item.horaire;
+
+              row.appendChild(column1);
+              row.appendChild(column2);
+              tbodySchedule.appendChild(row);
+            });
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+
+
+      </script>
+    </div>
+
+    <div class="column">
+      <h3>Services</h3>
+      <table class="table table-hover" id="data-table">
+        <thead>
+          <tr>
+            <th scope="col">Service</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+
+      <script>
+
+        const token = localStorage.getItem('jwt');
+        fetch("/services/list?service_type=service&order_by=prix&order=desc&occasion=0", {
+          method: "GET",
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + token
+          }
+        })
+          .then(response => response.json())
+          .then(data => {
+
+            const tableBody = document.getElementById('table-body');
+
+            data.forEach(row => {
+              const newRow = document.createElement('tr');
+              const column1 = document.createElement('td');
+              const column2 = document.createElement('td');
+
+              column1.textContent = row.nom;
+              column2.textContent = row.prix;
+
+              newRow.appendChild(column1);
+              newRow.appendChild(column2);
+
+              tableBody.appendChild(newRow);
+            });
+          })
+          .catch(error => console.error('Error:', error));
+      </script>
+
+    </div>
+
+    <div class="column">
+      <h3>Temoignage</h3>
+      <table class="table table-hover" id="temoignage">
+        <tr>
+          <th class="column1" scope="col">Nom</th>
+          <th class="column2" scope="col">Message</th>
+          <th class="column3" scope="col">Note</th>
+        </tr>
+        <tbody id="tbody-temoignage"></tbody>
+      </table>
+
+      <script>
+
+        fetch("/temoignage/list/approved", {
+          method: "GET",
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        })
+          .then(response => response.json())
+          .then(data => {
+            const table = document.getElementById('tbody-temoignage');
+
+            // Loop through the data and generate table rows
+            data.forEach(item => {
+              const row = document.createElement('tr');
+              const column1 = document.createElement('td');
+              const column2 = document.createElement('td');
+              const column3 = document.createElement('td');
+              column1.textContent = item.nom;
+              column2.textContent = item.message;
+              column3.textContent = item.note;
+
+              row.appendChild(column1);
+              row.appendChild(column2);
+              row.appendChild(column3);
+              table.appendChild(row);
+            });
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+
+
+      </script>
+    </div>
+  </div>
+  <div class="cars">
+    <h1> <a href="carsforsale" style=" background-color: #1b263b; color: #fff; text-decoration: solid;" >Clicker ici pour voir les voitures d'occasion</a></h1>
+    <img src="sale2.jpg" class="img-thumbnail"  alt="for sale" style=" width:50%; height:400px">
+  </div>
+</body>
+
+</html>

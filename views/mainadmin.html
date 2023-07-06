@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    /* Base Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: #1b263b;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      height: 150px;
+    }
+
+    .navbar__logo {
+      margin-left: 20px;
+    }
+
+    .navbar__logo img {
+      height: 130px;
+      width: auto;
+    }
+
+    .navbar__title {
+      flex-grow:1 ;
+      text-align:center;
+      font-size: 35px;
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    .navbar__menu {
+      margin-right: 20px;
+      margin-top: 100px;
+      display:inline-block;
+      align-items: center;
+    }
+
+    .navbar__menu-item {
+      margin-left: 15px;
+      color: #fff;
+      text-decoration: none;
+      text-decoration-style: underline;
+    }
+
+    .navbar__menu-item:hover {
+      cursor: pointer;
+    }
+    
+    .container {
+      margin: 20px;
+      display: flex;
+      color: #fff;
+    }
+
+    .column {
+      flex: 1;
+      margin: 0 10px;
+      background-color: #1b263b;
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    .color-white{
+      color: white;
+    }
+
+   
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="#" class="navbar__logo">
+      <img src="logo2.jpg" alt="Logo">
+    </a>
+    <div class="navbar__title">Garage Service-Admin</div>
+    <div class="navbar__menu">
+      <a href="employees" class="navbar__menu-item">Add Employees</a>
+      <a id="logout" class="navbar__menu-item" >Déconnexion</a>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <div class="column">
+      <h3>Services</h3>
+      <a href="servicesadmin" class="color-white">Clicker ici pour modifier les services de votre garage</a>
+
+    </div>
+    <div class="column">
+      <h3>Horaire</h3>
+      <a href="scheduleadmin" class="color-white">Clicker ici pour modifier les horaires de votre garage</a>
+    </div>
+  
+  </div>
+  <script>
+   var logoutBtn = document.getElementById("logout");
+   logoutBtn.addEventListener("click", function() {
+      window.localStorage.clear();
+      window.location.href='main';
+   })
+
+  </script>
+</body>
+</html>

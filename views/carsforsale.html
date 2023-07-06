@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+  crossorigin="anonymous"></script>
+  <title>Car Filter Example</title>
+  <style>
+     .filterContainer {
+  max-width: 300px;
+  margin-bottom: 10px;
+
+     }
+     .label {
+  display: block;
+  margin-bottom: 5px;
+     }
+     .input[type="range"] {
+  width: 100%;
+     }
+     .output {
+  display: block;
+  font-weight: bold;
+  margin-top: 5px;
+     }
+     .ul {
+  list-style-type: none;
+  padding: 0;
+     }
+     .li {
+  margin-bottom: 10px;
+     }
+     .li span {
+  font-weight: bold;
+     }
+    .navbar {
+      background-color: #1b263b;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      height: 150px;
+    }
+    .navbar__logo {
+      margin-left: 20px;
+    }
+    .navbar__logo img {
+      height: 130px;
+      width: auto;
+    }
+    .navbar__title {
+      flex-grow: 1;
+      text-align: center;
+      font-size: 35px;
+      font-weight: bold;
+      font-style: italic;
+    }
+    .car {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .car img {
+      width: 100px;
+      height: 100px;
+      margin-right: 10px;
+    }
+    .car-info {
+      flex-grow: 1;
+    }
+  </style>
+  
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="navbar__logo">
+          <img src="logo2.jpg" alt="Logo">
+        </a>
+        <div class="navbar__title">Vente des voitures d'occasion</div>
+        
+      </nav>
+    
+      <h1>Filtre de voitures d'occasion</h1>
+      <ul id="carList"></ul>
+
+      <div id="filterContainer">
+        <label for="prixRange">Prix maximum :</label>
+        <input type="range" id="prixRange" min="0" max="50000" step="1000" value="50000">
+        <output id="priceOutput">50000 €</output>
+    
+        <label for="mileageRange">Kilométrage maximum :</label>
+        <input type="range" id="mileageRange" min="0" max="200000" step="10000" value="200000">
+        <output id="mileageOutput">200000 km</output>
+    
+        <label for="anneeRange">Année minimum :</label>
+        <input type="range" id="anneeRange" min="1990" max="2023" step="1" value="1990">
+        <output id="yearOutput">1990</output>
+
+        <button class="btn btn-success" type="button" id="chercher">chercher</button>
+      </div>
+    
+      <ul id="carList"></ul>
+
+  <script>
+    const carContainer = document.getElementById('carList');
+
+    const mileageRange = document.getElementById('mileageRange');
+    mileageRange.addEventListener('change', function(event){
+      document.getElementById('mileageOutput').value = mileageRange.value;
+    });
+
+    const anneeRange = document.getElementById('anneeRange');
+    anneeRange.addEventListener('change', function(event){
+      document.getElementById('yearOutput').value = anneeRange.value;
+    });
+    
+    const prixRange = document.getElementById('prixRange');
+    prixRange.addEventListener('change', function(event){
+      document.getElementById('priceOutput').value = prixRange.value;
+    });
+
+  
+   function getData(prixRange, anneeRange, mileageRange ){
+    const carContainer = document.getElementById('carList');
+    carContainer.innerHTML = '';
+     // Fetch car data from the backend API
+     let url = "/services/list?service_type=car&order_by=prix&order=desc&occasion=0";
+      if (prixRange)
+        url += "&prixRange=" + prixRange;
+      if (mileageRange)
+        url += "&mileageRange=" + mileageRange;
+      if (anneeRange)
+        url += "&anneeRange=" + anneeRange;
+     const token = localStorage.getItem('jwt');
+      fetch(url, {
+        method: "GET",
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': 'Bearer ' + token
+        }
+      })
+      .then(response => response.json())
+      .then(carData => {
+        // Create a new car element for each car in the carData array
+        carData.forEach(car => {
+          const carDiv = document.createElement('div');
+          carDiv.className = 'car';
+
+          const carImg = document.createElement('img');
+          carImg.src = '/img?name='+car.picture;
+          carDiv.appendChild(carImg);
+
+          const carInfoDiv = document.createElement('div');
+          carInfoDiv.className = 'car-info';
+
+          const carName = document.createElement('h3');
+          carName.textContent = car.nom;
+          carInfoDiv.appendChild(carName);
+
+          const carPrice = document.createElement('p');
+          carPrice.textContent = 'Price: ' + car.prix;
+          carInfoDiv.appendChild(carPrice);
+
+          const carModel = document.createElement('p');
+          carModel.textContent = 'Model: ' + car.model;
+          carInfoDiv.appendChild(carModel);
+
+          const carYear = document.createElement('p');
+          carYear.textContent = 'Year: ' + car.annee;
+          carInfoDiv.appendChild(carYear);
+
+          
+          const carKm = document.createElement('p');
+          carKm.textContent = 'KM: ' + car.km;
+          carInfoDiv.appendChild(carKm);
+
+          const carCaracteristiques = document.createElement('p');
+          carCaracteristiques.textContent = 'Caracteristiques: ' + car.caracteristiques;
+          carInfoDiv.appendChild(carCaracteristiques);
+
+          carDiv.appendChild(carInfoDiv);
+          carContainer.appendChild(carDiv);
+
+          console.log(car.picture)
+        });
+      })
+      .catch(error => {
+        console.log('Error fetching car data:', error);
+      });
+   }
+     
+
+    const filterButton = document.getElementById('chercher').addEventListener('click', function() {
+      const prixRange = document.getElementById('prixRange');
+      const mileageRange = document.getElementById('mileageRange');
+      const anneeRange = document.getElementById('anneeRange');
+      
+      getData(prixRange.value,  anneeRange.value, mileageRange.value);
+    });
+    getData();
+
+     
+  </script>
+   <button class="btn btn-outline-primary btn-sm" type="button" onclick="history.back()">Back</button>
+</body>
+</html>

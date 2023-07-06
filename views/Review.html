@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+  <style>
+    html {
+      background-size: cover;
+      height: 100%;
+      background-color: #fff;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-font-smoothing: antialiased;
+      -o-font-smoothing: antialiased;
+
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      color: #fff;
+      font-family: Arial, san-serif;
+    }
+
+    h4 {
+      margin: 10px 0 20px 0;
+    }
+
+    #reviewForm {
+      background-color: #1b263b;
+      padding: 10px 20px 30px 20px;
+      max-width: 100%;
+      float: left;
+      left: 50%;
+      position: absolute;
+      margin-top: 30px;
+      margin-left: -260px;
+      border-radius: 7px;
+      -webkit-border-radius: 7px;
+      -moz-border-radius: 7px;
+    }
+
+    #reviewForm input,
+    #reviewForm select,
+    #reviewForm textarea,
+    #reviewForm label {
+      font-size: 15px;
+      margin-bottom: 2px;
+      font-family: Arial, san-serif;
+    }
+
+    #reviewForm input,
+    #reviewForm select,
+    #reviewForm textarea {
+      width: 160%;
+      background: #fff;
+      border: 0;
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      border-radius: 4px;
+      margin-bottom: 25px;
+      padding: 5px;
+    }
+
+    #reviewForm input:focus,
+    #reviewForm select:focus,
+    #reviewForm textarea:focus {
+      background-color: #e5e6e7;
+    }
+
+    #reviewForm textarea {
+      width: 150%;
+      height: 150px;
+    }
+
+    #reviewForm input[type="button"] {
+      cursor: pointer;
+      width: 100%;
+      border: none;
+      background: #991d57;
+      background-image: linear-gradient(bottom, #8c1c50 0%, #991d57 52%);
+      background-image: -moz-linear-gradient(bottom, #8c1c50 0%, #991d57 52%);
+      background-image: -webkit-linear-gradient(bottom, #8c1c50 0%, #991d57 52%);
+      color: #fff;
+      margin: 0 0 5px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    #reviewForm input[type="button"]:hover {
+      background-image: linear-gradient(bottom, #9c215a 0%, #a82767 52%);
+      background-image: -moz-linear-gradient(bottom, #9c215a 0%, #a82767 52%);
+      background-image: -webkit-linear-gradient(bottom, #9c215a 0%, #a82767 52%);
+      -webkit-transition: background 0.3s ease-in-out;
+      -moz-transition: background 0.3s ease-in-out;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    #reviewForm input[type="button"]:active {
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+
+    input:required,
+    textarea:required {
+      box-shadow: none;
+      -moz-box-shadow: none;
+      -webkit-box-shadow: none;
+      -o-box-shadow: none;
+    }
+
+    #reviewForm .required {
+      font-weight: bold;
+      color: #e5e6e7;
+    }
+
+    .navbar {
+      background-color: #1b263b;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      height: 150px;
+    }
+
+    .navbar__logo {
+      margin-left: 20px;
+    }
+
+    .navbar__logo img {
+      height: 130px;
+      width: auto;
+    }
+
+    .navbar__title {
+      flex-grow: 1;
+      text-align: center;
+      font-size: 35px;
+      font-weight: bold;
+      font-style: italic;
+
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a href="#" class="navbar__logo">
+      <img src="logo2.jpg" alt="Logo">
+    </a>
+    <div class="navbar__title">Garage automobile PARROT</div>
+  </nav>
+  <div id="reviewForm">
+    <div>
+      <h4>Ecrire une temoignage sur nos travaux.</h4>
+    </div>
+
+    <form>
+      <div>
+        <label for="nom">
+          <span class="required">Nom: *</span>
+          <input type="text" id="nom" name="nom" value="" placeholder="Your Name" required="required" tabindex="1"
+            autofocus="autofocus" />
+        </label>
+      </div>
+
+      <div>
+        <label for="note">
+          <span>Note: </span>
+          <input type="text" id="note" name="note" value="" placeholder="note" tabindex="2" />
+        </label>
+      </div>
+      <div>
+        <label for="message">
+          <span class="required">Message: *</span>
+          <textarea id="message" name="message" placeholder="Votre message." tabindex="3"
+            required="required"></textarea>
+        </label>
+      </div>
+      <div>
+        <input type="button" id="submit" value="Submit" />
+        <input type="button" onclick="history.back()" value="back" />
+      </div>
+    </form>
+  </div>
+  <script>
+    const submit = document.getElementById('submit');
+
+    submit.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      // Retrieve form values
+      const nom = document.getElementById('nom').value;
+      const message = document.getElementById('message').value;
+      const note = document.getElementById('note').value;
+
+      const object = {
+        "nom": nom,
+        "message": message,
+        "note": note,
+      };
+      fetch("/temoignage/add", {
+        method: "POST",
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify(object)
+      })    
+       .then(res => {
+          if (res.status === 200)
+            alert('merci pour votre commentaire');
+          else 
+            alert('vous avez oublié un ou plusieurs champs obligatiore ')
+        });
+      });
+
+  </script>
+</body>
+
+</html>
