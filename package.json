@@ -23,7 +23,8 @@
     "pg": "^8.11.0",
     "sanitize": "^2.1.2",
     "swagger-autogen": "^2.23.1",
-    "swagger-ui-express": "^4.6.3"
+    "swagger-ui-express": "^4.6.3",
+    "validator": "^13.11.0"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "^0.2.16"

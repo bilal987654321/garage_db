@@ -30,9 +30,7 @@ router.get('/list', authenticateToken, async function (req, res, next) {
 });
 
 router.post('/edit_password', async function (req, res) {
-  let id = req.body.id;
-  let password = req.body.password;
-  let old_password = req.body.old_password;
+  let { id, password, old_password } = extractParamsFromObject(req.body, 'id', 'password', 'old_password');
 
   query = getUpdatePasswordQuery(old_password, password, id);
 
@@ -45,13 +43,7 @@ router.post('/edit_password', async function (req, res) {
 
 
 router.post('/add', authenticateAdminToken, async function (req, res) {
-  let nom = req.body.nom;
-  let prenom = req.body.prenom;
-  let phone = req.body.phone;
-  let email = req.body.email;
-  let password = req.body.password;
-
-
+  let { nom, prenom, phone, email, password } = extractParamsFromObject(req.body, 'nom', 'prenom', 'phone', 'email', 'password');
   if (!nom || !prenom || !phone || !email || !password) {
     res.status(400).json("Missing params");
     return;
@@ -88,7 +80,7 @@ async function isDuplicateEmail(email) {
 }
 
 router.post('/edit', authenticateAdminToken, async function (req, res) {
-  let { id, nom, prenom, email } = req.body;
+  let { id, nom, prenom, email } = extractParamsFromObject(req.body, 'id', 'nom', 'prenom', 'email');
   let query = getUpdateUserQuery(nom, prenom, email, id);
 
   const result = await executeQuery(query);

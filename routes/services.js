@@ -2,11 +2,11 @@ var express = require('express');
 var router = express.Router();
 const { executeQuery, getInsertCarQuery, getInsertServiceQuery, getDeleteServiceQuery, getUpdateQuery, getServicesListQuery, getCarsListQuery } = require('../db')
 const { authenticateToken, authenticateAdminToken } = require('../auth/jwt');
-const { move } = require('../utils.js');
+const { move, extractParamsFromObject } = require('../utils.js');
 
 router.get('/list', async function (req, res, next) {
 
-  let { service_type, order_by, order, occasion, prixRange, anneeRange, mileageRange } = req.query;
+  let { service_type, order_by, order, occasion, prixRange, anneeRange, mileageRange } = extractParamsFromObject(req.query,'service_type', 'order_by, order', 'occasion', 'prixRange', 'anneeRange', 'mileageRange');
 
   if (order_by == undefined || !['nom', 'prix', 'anne', 'km'].includes(order_by))
     order_by = 'nom';
@@ -42,7 +42,7 @@ router.get('/list', async function (req, res, next) {
 });
 
 router.post('/add_service', authenticateAdminToken, async function (req, res) {
-  const { nom, model, prix, caracteristiques, annee, km, occasion } = req.body;
+  const { nom, model, prix, caracteristiques, annee, km } = extractParamsFromObject(req.body,'nom', 'model', 'prix', 'caracteristiques', 'annee', 'km' );
 
   let query = getInsertServiceQuery(nom, model, prix, caracteristiques, annee, km, occasion);
   const result = await executeQuery(query);
@@ -55,7 +55,7 @@ router.post('/add_service', authenticateAdminToken, async function (req, res) {
 const fs = require('fs')
 const ejs = require('ejs')
 router.post('/add_car', async function (req, res) {
-  const { nom, model, prix, caracteristiques, annee, km } = req.body;
+  const { nom, model, prix, caracteristiques, annee, km } = extractParamsFromObject(req.body,'nom', 'model', 'prix', 'caracteristiques', 'annee', 'km' );
 
   const file = req.files.picture.file;
   const file_name = req.body.name + req.files.picture.filename;
@@ -72,7 +72,7 @@ router.post('/add_car', async function (req, res) {
 
 
 router.post('/edit', authenticateAdminToken, async function (req, res) {
-  const { id, nom, model, prix, caracteristiques, annee, km, occasion } = req.body;
+  const { id,nom, model, prix, caracteristiques, annee, km, occasion } = extractParamsFromObject(req.body,'id','nom', 'model', 'prix', 'caracteristiques', 'annee', 'km','occasion' );
 
   const query = getUpdateQuery(nom, model, prix, caracteristiques, annee, km, occasion, id);
   const result = await executeQuery(query);
@@ -83,7 +83,7 @@ router.post('/edit', authenticateAdminToken, async function (req, res) {
 });
 
 router.post('/delete_service', authenticateAdminToken, async function (req, res) {
-  const { id } = req.body;
+  const { id } = extractParamsFromObject(req.body,'id');
 
   const query = getDeleteServiceQuery(id);
   const result = await executeQuery(query);
@@ -93,7 +93,7 @@ router.post('/delete_service', authenticateAdminToken, async function (req, res)
   }
 });
 router.post('/edit_services', authenticateToken, async function (req, res) {
-  const services = req.body;
+  const services = extractParamsFromObject(req.body,'services');
   let insertQueries = [];
   let deleteQueries = [];
   let ids = [];

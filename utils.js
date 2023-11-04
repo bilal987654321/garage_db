@@ -46,9 +46,10 @@ function move(oldPath, newPath) {
 
   
 function extractParamsFromObject(body, ...params){
+  var validator = require('validator');
   let res = {};
   params.forEach(param => {
-    res[param] = body[param];
+    res[param] = validator.escape(body[param]);
   });
   return res;
 }

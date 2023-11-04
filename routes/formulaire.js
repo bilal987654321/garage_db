@@ -20,7 +20,7 @@ router.get('/list', authenticateToken, async function(req, res, next) {
 });
 
 router.post('/add',  async function(req, res) {
-  let { nom, prenom, email, telephone, message } = req.body;
+  let { nom, prenom, email, telephone, message } = extractParamsFromObject(req.body,'nom', 'prenom', 'email', 'telephone', 'message');
   
   if(!nom || !prenom || !email || !telephone || !message){
     res.status(400).json("Missing params"); 

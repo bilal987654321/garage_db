@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const { executeQuery, getInsertTemoignageQuery, getApproveTemoignageQuery, getRejectTemoignageQuery, getListTemoignageQuery } = require('../db')
 const { authenticateToken } = require('../auth/jwt');
+const { extractParamsFromObject } = require('../utils');
 
 router.get('/list/pending', authenticateToken, async function (req, res, next) {
 
@@ -25,9 +26,7 @@ router.get('/list/approved', async function (req, res, next) {
 
 
 router.post('/add', async function (req, res) {
-  let nom = req.body.nom;
-  let message = req.body.message;
-  let note = req.body.note;
+  let { nom, message, note } = extractParamsFromObject(req.body, 'nom','message','note');
 
   if (!nom || !message || !note) {
     res.status(400).json({});
@@ -47,7 +46,7 @@ router.post('/add', async function (req, res) {
 });
 
 router.post('/approve', authenticateToken, async function (req, res) {
-  let id = req.body.id;
+  let id = extractParamsFromObject(req.body, 'id');
 
   let query = getApproveTemoignageQuery(id);
   const result = await executeQuery(query);
@@ -58,7 +57,7 @@ router.post('/approve', authenticateToken, async function (req, res) {
 });
 
 router.post('/reject', authenticateToken, async function (req, res) {
-  let id = req.body.id;
+  let id = extractParamsFromObject(req.body, 'id');
 
   let query = getRejectTemoignageQuery(id);
   const result = await executeQuery(query);
